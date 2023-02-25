@@ -1,0 +1,5 @@
+nume1 prenume1 d1 10
+nume4 prenume4 d2 9
+nume1 prenume1 d2 7
+nume4 prenume4 d6 10
+nume4 prenume4 d1 4

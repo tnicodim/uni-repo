@@ -1,0 +1,7 @@
+A + B - C
+A + A + A
+A + C - B
+A - C - B
+A + D - C + B
+
+numere citite de la tastatura

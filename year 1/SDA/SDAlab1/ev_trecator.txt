@@ -1,0 +1,4 @@
+Ionescu Vlad 10.000 23
+Popescu Sorin 5.600 24
+Vlad Bors 7.400 20
+Vasile Melnic 5.100 24
