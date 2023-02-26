@@ -38,6 +38,7 @@ cmake-build-*/
 
 # IntelliJ
 out/
+.idea/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -417,7 +418,6 @@ MigrationBackup/
 # Custom ignores
 *.vcxproj*
 *.sln
-.idea
 
 .metadata
 bin/
