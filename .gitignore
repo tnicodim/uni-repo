@@ -418,6 +418,7 @@ MigrationBackup/
 # Custom ignores
 *.vcxproj*
 *.sln
+*.iml
 
 .metadata
 bin/
