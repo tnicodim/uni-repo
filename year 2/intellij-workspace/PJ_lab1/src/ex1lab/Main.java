@@ -7,14 +7,14 @@ package ex1lab;
 
 import java.util.Scanner;
 
-public class MainApp {
+public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("latime = ");
         int lat = scanner.nextInt();
         System.out.print("lungime = ");
         int l = scanner.nextInt();
-        Dreptunghi d = new Dreptunghi(lat,l);
+        Dreptunghi d = new Dreptunghi(lat, l);
         System.out.println("Surface area: " + d.getSurface() + "\nPerimeter: " + d.getPerimeter());
     }
 }
