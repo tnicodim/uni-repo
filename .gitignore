@@ -417,6 +417,7 @@ MigrationBackup/
 # Custom ignores
 *.vcxproj*
 *.sln
+.idea
 
 .metadata
 bin/
