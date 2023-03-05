@@ -20,7 +20,7 @@ public class Vers {
         return vowels;
     }
     public String getAsterisk(String sequence){
-        if (vers.substring(vers.length()-sequence.length()) == sequence)
+        if (vers.substring(vers.length()-sequence.length()).equals(sequence))
             return " * ";
         else
             return " ";
