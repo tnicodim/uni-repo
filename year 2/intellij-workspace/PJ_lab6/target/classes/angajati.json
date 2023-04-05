@@ -1,0 +1,26 @@
+[
+  {
+    "nume": "Ion Mitica",
+    "post": "HR Director",
+    "data_angajarii": "2022-04-01",
+    "salariu": 1200.0
+  },
+  {
+    "nume": "Harap Alb",
+    "post": "Team Leader",
+    "data_angajarii": "2022-04-19",
+    "salariu": 2900.0
+  },
+  {
+    "nume": "Fat-Frumos",
+    "post": "CEO",
+    "data_angajarii": "1999-02-15",
+    "salariu": 8000.0
+  },
+  {
+    "nume": "Pacala",
+    "post": "Cleaning Manager",
+    "data_angajarii": "2018-08-14",
+    "salariu": 890.0
+  }
+]
