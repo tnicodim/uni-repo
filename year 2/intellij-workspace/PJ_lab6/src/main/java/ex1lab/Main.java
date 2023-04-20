@@ -53,7 +53,7 @@ public class Main {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
             List<Angajati> angajati = mapper
-                    .readValue(file, new TypeReference<List<Angajati>>() {
+                    .readValue(file, new TypeReference<>() {
                     });
             return angajati;
         } catch (IOException e) {
