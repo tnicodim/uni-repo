@@ -1,0 +1,20 @@
+0.
+SELECT * FROM student;
+
+1.
+ALTER TABLE student
+   ADD CONSTRAINT year1to4 CHECK (an >= 1 AND an <= 4);
+
+2.
+INSERT INTO Contract(nrc,sid,cid,an) VALUES ('10','SET001','CRS03','2022');
+INSERT INTO Contract(nrc,sid,cid,an) VALUES ('11','SET002','CRS03','2022');
+INSERT INTO Contract(nrc,sid,cid,an) VALUES ('12','SET003','CRS04','2022');
+
+3.
+UPDATE sala
+SET nr_locuri=82
+WHERE cods='A109';
+
+4.
+DELETE FROM Contract
+WHERE (sid='SET002' AND cid='CRS03');

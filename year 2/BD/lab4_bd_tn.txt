@@ -1,0 +1,45 @@
+#4.1 Să se listeze toți profesorii împreună cu datele despre facultatea de care aparțin
+
+SELECT p.nume, f.nume as facultate, f.adr as adresa, f.tel as telefon FROM Profesor p, Facultate f WHERE p.fid = f.fid;
+
+
+#4.2 Să se listeze toate cursurile de după amiază (>12:00) împreună cu numărul de locuri ale sălii unde se desfășoară.
+
+SELECT c.cid, c.titlu, c.sala, s.nr_locuri, c.ora FROM Curs c, Sala s WHERE c.sala = s.cods AND c.ora > 12;
+
+
+#4.3. Să se listeze toate cursurile care se țin la etajul 1 (în orice sală de la etajul 1).
+
+SELECT c.cid, c.titlu, c.sala, s.etaj FROM Curs c, Sala s WHERE c.sala=s.cods AND s.etaj = 1;
+
+
+#4.4 Să se listeze toate cursurile care se țin în ziua curenta împreună cu numele profesorilor care le susțin. Denumirea zilei curente fără diacritice se poate afla folosind funcția TO-CHAR: 
+
+// trim(convert(to_char(SYSDATE, 'Day', 'NLS_DATE_LANGUAGE = Romanian'),'US7ASCII'))
+
+SELECT c.titlu, p.nume, c.zi FROM Curs c, Profesor p WHERE c.pid = p.pid AND c.zi = trim(convert(to_char(SYSDATE, 'Day', 'NLS_DATE_LANGUAGE = Romanian'),'US7ASCII'))
+
+
+#4.5 Să se listeze studenții cu informații despre cursurile (titlu si sala) la care au nota mai mică sau egală cu 8.
+
+SELECT s.sid, s.nume, s.an, s.fid, c.titlu,c.sala, ct.nota FROM Student s, Curs c, Contract ct WHERE ct.cid = c.cid AND ct.sid = s.sid AND ct.nota <= 8 AND ct.nota IS NOT NULL;
+
+
+#4.6 Să se listeze toți studenții care nu au nici un contract de studii semnat, ordonați după an și nume.
+
+SELECT s.* FROM Student s, Contract ct WHERE s.sid = ct.sid(+) AND ct.sid IS NULL ORDER BY s.an, s.nume;
+
+
+#4.7 Să se listeze toți studenții care au cel puțin un contract de studii semnat, ordonați după numele de familie (obs. în BD sunt în format “prenume nume_familie”).
+
+SELECT s.* FROM Student s, Contract ct WHERE s.sid = ct.sid (+) AND ct.sid IS NOT NULL ORDER BY substr(nume, instr(nume,' '));
+
+
+#4.8 Să se listeze toți studenții care au cursuri în ziua de ’Luni’.
+
+SELECT s.* FROM Student s, Curs c, Contract cc, Sala ss WHERE s.sid= cc.sid (+) AND cc.cid = c.cid AND c.zi = 'Luni';
+
+
+#4.9 Să se listeze toți studenții care au cursuri într-o sală cu mai puțin de 200 de locuri indiferent de zi, ordonați după anul nașterii și nume.
+
+SELECT s.* FROM Student s, Curs c, Contract ct, Sala ss WHERE s.sid = ct.sid AND ct.cid = c.cid AND c.sala=ss.cods AND ss.nr_locuri < 200 ORDER BY s.an, s.nume;

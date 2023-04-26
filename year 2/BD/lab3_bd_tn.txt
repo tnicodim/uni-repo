@@ -1,0 +1,87 @@
+#0
+
+SELECT an FROM Student;
+SELECT DISTINCT an FROM Student;
+SELECT * FROM Student;
+SELECT sid AS ID_student, nume, an FROM Student;
+//!! SELECT sid AS ID_student, nume AS student_name, an AS academic_year FROM Student;
+
+SELECT * FROM Student WHERE sid='SET001';
+SELECT * FROM Student WHERE an=1;
+
+SELECT * FROM Student ORDER BY an;
+SELECT sid, nume, an, media FROM Student
+ 	ORDER BY an, media;
+SELECT * FROM Student
+ 	WHERE bursa>0
+ 	ORDER BY an, media;
+
+ SELECT nume, upper(nume) AS numS,
+ 	length(nume) AS lngNume
+ 	FROM Student;
+ SELECT sid, nume, an FROM Student
+ 	WHERE nume LIKE 'N%';
+ SELECT extract(MONTH from SYSDATE) FROM
+ 	Dual;
+ //!! 'DUAL' is a special one-row, one-column table in Oracle that is used to select a single row of data without needing to specify a table name.
+SELECT nume, media,
+ CASE 	WHEN media<5 THEN 'NS'
+ 		WHEN media<7 THEN 'S'
+		WHEN media<10 THEN 'B'
+	 ELSE 'FB'
+ 	END AS calificativ
+ FROM Student;
+
+````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
+
+#3.1 Să se listeze toți studenții a căror nume de familie se termină cu litera ‘u’:
+SELECT * FROM Student
+	WHERE nume LIKE '%u';
+
+#3.2 Considerând că toți studenții au un singur prenume, să se afișeze o lista cu numele de familie, prenumele și anul de studiu a tuturor studenților:
+SELECT substr(nume, 1, instr(nume, ' ')-1) AS prenume,
+ 	substr(nume, instr(nume, ' ')) AS familyName, 
+ 	an FROM Student;
+
+#3.3 Să se listeze toți studenții a căror prenume este mai lung de 7 caractere inclusiv. Se va afișa numele complet, prenumele și lungimea prenumelui pentru verificare:
+SELECT substr(nume, 1, instr(nume, ' ')-1) AS prenume, nume, length(substr(nume, 1, instr(nume, ' ')-1)) AS lungime FROM Student
+	WHERE length(substr(nume, 1, instr(nume, ' ')-1)) <= 7;
+
+#3.4 Să se afișeze toți studenții care au împlinit deja sau vor împlinii anul acesta 20 de ani. Se va afișa numele, anul si data nașterii. Anul curent se consideră cel obținut cu SYSDATE.
+SELECT nume, an, substr(cnp, 6, 2) || '.' || substr(cnp, 4, 2) || '.20' || substr(cnp,2,2)  AS data_nasterii FROM Student
+    WHERE cnp LIKE '_____________' AND 
+    to_number(substr(cnp, 2, 2))=to_number(substr(extract(YEAR from SYSDATE)-20,3,2));
+
+#3.5 Să se afișeze toți studenții care își serbează ziua de naștere în luna curentă. Obs: luna curentă se va obține din SYSDATE.
+SELECT nume, an, substr(cnp, 6, 2) || '.' || substr(cnp, 4, 2) || '.20' || substr(cnp,2,2)  AS data_nasterii FROM Student
+    WHERE cnp LIKE '_____________' AND 
+    to_number(substr(cnp, 4, 2))=to_number(extract(MONTH from SYSDATE));
+
+#3.6 Să se afișeze toți studenții care nu au completat câmpul bursa (a căror bursă nu se cunoaște). Cu o nouă interogare afișați apoi studenții care nu au bursă.
+SELECT * FROM Student
+    WHERE bursa IS NULL;
+
+SELECT * FROM Student
+    WHERE bursa LIKE '0';
+
+#3.7 Să se afișeze toți studenții din anul 2. Se va afișa numele, anul si CNP-ul. Pentru studenții care nu au completat CNP-ul se va afișa ‘CNP necompletat’.
+SELECT nume, an ,
+CASE WHEN cnp IS null THEN 'CNP necompletat'
+    WHEN cnp IS NOT null THEN cnp
+ END AS cnp
+
+ FROM Student WHERE an=2;
+
+#3.8 Să se scrie două interogări SQL, una care listează toți
+studenții de sex feminin și cealaltă pe cei de sex masculin. Se va
+afișa numele, cnp-ul și anul de studiu.
+
+SELECT nume, cnp, an FROM Student 
+    WHERE cnp LIKE '1%';
+SELECT nume, cnp, an FROM Student 
+    WHERE cnp LIKE '2%';
+
+
+#3.9 Se consideră studenții împărțiți în două grupuri – fete și respectiv băieți. Să se afișeze toți studenți afișând numele, anul de studiu și grupul (fete sau băieți) din care fac parte.
+SELECT nume, an, CASE WHEN cnp LIKE '1%' THEN 'baieti'
+                      WHEN cnp LIKE '2%' THEN 'fete' END AS grup FROM Student;

@@ -1,0 +1,51 @@
+#5.1 Să se listeze toți studenții de la facultatea AC care au media mai mica decât studentul cu CNP = 1020608359554.
+
+SELECT s.sid, s.nume, s.an, s.fid, s.bursa FROM Student s
+ WHERE s.bursa <
+ ( SELECT bursa FROM Student
+ WHERE cnp = 1020608359554) AND s.fid = 'AC'
+
+#5.2 Folosind subinterogări să se afișeze valoarea bursei minime la facultatea AC.
+Obs. - Se vor ignora studenții fără bursă sau cu bursa
+necunoscută.
+ - Se acceptă doar soluții care folosesc materia studiată
+până acum (ex. fără agregare).
+
+SELECT s.sid, s.nume, s.an, s.fid, s.bursa FROM Student s
+ WHERE s.bursa IS NOT NULL AND s.bursa > 0 AND s.bursa <= ALL 
+ (SELECT bursa FROM Student WHERE bursa > 0) AND s.fid = 'AC'
+
+#5.3 Folosind subinterogări (fără a folosi join) să se afișeze toate cursurile care se țin într-o sală cu mai mult de 100 de locuri.
+
+SELECT c.cid, c.titlu, c.sala FROM Curs c
+ WHERE c.sala IN
+ (SELECT cods FROM Sala WHERE nr_locuri > 100)
+
+
+#5.4 Să se listeze toate sălile, împreună cu numărul de locuri, care sunt folosite și de facultatea MEC și de cea AC pentru cursuri la aceste facultăți.
+
+SELECT cods, nr_locuri FROM Sala
+ WHERE cods IN
+ (SELECT sala FROM Curs WHERE fid = 'MEC' OR fid = 'AC')
+
+
+#5.5 Să se listeze toți studenții unde mai există cel puțin încă un student care are exact aceiași bursă și exact aceiași medie, indiferent de facultatea la care sunt înscriși.
+
+SELECT s.sid, s.nume, s.an, s.fid, s.bursa, s.media FROM Student s
+ WHERE EXISTS
+ ( SELECT ss.sid, ss.nume, ss.an, ss.fid, ss.bursa, ss.media FROM Student ss
+ WHERE s.bursa = ss.bursa AND s.media = ss.media AND s.nume <> ss.nume)
+
+
+#5.6 Folosind operatorul EXISTS să se listeze facultățile (fid și nume) care au cel puțin un student cu bursa cea mai mare posibilă în universitate. (Obs.: Se pot utiliza două sau mai multe subinterogări succesive imbricate)
+
+SELECT f.fid, f.nume
+FROM Facultate f
+WHERE EXISTS (
+    SELECT s.fid, s.bursa
+    FROM Student s
+    WHERE s.fid = f.fid AND s.bursa >= ALL (
+        SELECT bursa FROM Student
+        WHERE bursa IS NOT NULL
+    )
+)
