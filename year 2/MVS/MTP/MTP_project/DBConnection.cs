@@ -9,6 +9,6 @@ namespace MTP_project
 {
     class DBConnection
     {
-        public static SqlConnection conn = new SqlConnection(@"Data Source=WIN-ML823RPOAOR\SQLEXPRESS" + ";InitialCatalog = Pharmacy; Integrated Security = True");
+        public static SqlConnection conn = new SqlConnection(@"Data Source=WIN-ML823RPOAOR\SQLEXPRESS;Initial Catalog=Library;Integrated Security=True");
     }
 }
