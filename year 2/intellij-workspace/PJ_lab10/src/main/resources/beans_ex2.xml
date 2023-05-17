@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <bean id="v1" class="ex2lab.Vehicul">
+        <property name="pret" value="225000"/>
+        <property name="marca" value="SCALA"/>
+    </bean>
+    <bean id="v2" class="ex2lab.Vehicul">
+        <property name="pret" value="38000"/>
+        <property name="marca" value="BMW"/>
+    </bean>
+    <bean id="v3" class="ex2lab.Vehicul">
+        <property name="pret" value="9000"/>
+        <property name="marca" value="Yamaha"/>
+    </bean>
+    <bean id="tir" class="ex2lab.Tir">
+        <property name="greutateMax" value="5600"/>
+    </bean>
+    <bean id="auto" class="ex2lab.Autoturism" parent="v2">
+        <property name="volumPortbagaj" value="200"/>
+        <property name="greutate" value="1250"/>
+    </bean>
+    <bean id="moto" class="ex2lab.Motocicleta">
+        <property name="vitezaMax" value="180"/>
+    </bean>
+</beans>
