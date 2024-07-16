@@ -5,86 +5,81 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
 namespace MTP_project
 {
     public partial class UserSearchForm : Form
     {
-        private string connectionString = @"Data Source=WIN-ML823RPOAOR\SQLEXPRESS;Initial Catalog=Library;Integrated Security=True"; // Replace with your actual connection string
+        private string firstName;
+        private string lastName;
+        private const int WM_NCHITTEST = 0x84;
+        private const int HTCLIENT = 0x1;
+        private const int HTCAPTION = 0x2;
+        protected override void WndProc(ref Message message)
+        {
+            base.WndProc(ref message);
 
+            if (message.Msg == WM_NCHITTEST && (int)message.Result == HTCLIENT)
+                message.Result = (IntPtr)HTCAPTION;
+        }
         public UserSearchForm()
         {
             InitializeComponent();
+            this.ControlBox = false;
+            this.Text = String.Empty;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private void searchButton_Click_1(object sender, EventArgs e)
         {
-            string firstName = firstNameTextBox.Text.Trim();
-            string lastName = lastNameTextBox.Text.Trim();
+            firstName = firstNameTextBox.Text.Trim();
+            lastName = lastNameTextBox.Text.Trim();
 
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
             {
                 MessageBox.Show("Please enter both first name and last name.");
                 return;
             }
-
-            List<User> users = SearchUsers(firstName, lastName);
-
-            if (users.Count > 0)
-            {
-                DisplayUserDetails(users);
-            }
-            else
-            {
-                MessageBox.Show("User not found.");
-                ClearUserDetails();
-            }
+            timer1.Start();
         }
 
-        private List<User> SearchUsers(string firstName, string lastName)
+        private List<User> SearchUsers()
         {
             List<User> users = new List<User>();
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            string query = "SELECT * FROM Users WHERE first_name = @FirstName AND last_name = @LastName";
+            SqlCommand command = new SqlCommand(query, DBConnection.conn);
+            command.Parameters.AddWithValue("@FirstName", firstName);
+            command.Parameters.AddWithValue("@LastName", lastName);
+
+            try
             {
-                string query = "SELECT * FROM Users WHERE first_name = @FirstName AND last_name = @LastName";
+                DBConnection.conn.Open();
+                SqlDataReader reader = command.ExecuteReader();
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                while (reader.Read())
                 {
-                    command.Parameters.AddWithValue("@FirstName", firstName);
-                    command.Parameters.AddWithValue("@LastName", lastName);
-
-                    try
+                    User user = new User
                     {
-                        connection.Open();
-                        SqlDataReader reader = command.ExecuteReader();
+                        First_Name = reader["first_name"].ToString(),
+                        Last_Name = reader["last_name"].ToString(),
+                        Email = reader["email"].ToString(),
+                        Account_Creation_Date = Convert.ToDateTime(reader["account_creation_date"]),
+                        Gender = reader["gender"].ToString(),
+                        Date_Of_Birth = Convert.ToDateTime(reader["date_of_birth"]),
+                        Borrow_Date_Start = reader["borrow_date_start"] == DBNull.Value ? null : (DateTime?)reader["borrow_date_start"],
+                        Borrow_Date_End = reader["borrow_date_end"] == DBNull.Value ? null : (DateTime?)reader["borrow_date_end"],
+                        SSN = reader["ssn"].ToString(),
+                        Profile_Picture = reader["profile_picture"] == DBNull.Value ? null : (byte[])reader["profile_picture"]
+                    };
 
-                        while (reader.Read())
-                        {
-                            User user = new User
-                            {
-                                First_Name = reader["first_name"].ToString(),
-                                Last_Name = reader["last_name"].ToString(),
-                                Email = reader["email"].ToString(),
-                                Account_Creation_Date = Convert.ToDateTime(reader["account_creation_date"]),
-                                Gender = reader["gender"].ToString(),
-                                Date_Of_Birth = Convert.ToDateTime(reader["date_of_birth"]),
-                                Borrow_Date_Start = reader["borrow_date_start"] == DBNull.Value ? null : (DateTime?)reader["borrow_date_start"],
-                                Borrow_Date_End = reader["borrow_date_end"] == DBNull.Value ? null : (DateTime?)reader["borrow_date_end"],
-                                SSN = reader["ssn"].ToString(),
-                                Profile_Picture = reader["profile_picture"] == DBNull.Value ? null : (byte[])reader["profile_picture"]
-                            };
-
-                            users.Add(user);
-                        }
-
-                        reader.Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("An error occurred: " + ex.Message);
-                    }
+                    users.Add(user);
                 }
+                reader.Close();
+                DBConnection.conn.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
             }
 
             return users;
@@ -92,10 +87,47 @@ namespace MTP_project
 
         private void DisplayUserDetails(List<User> users)
         {
-            User user = users[0]; // Assuming we only display details of the first matching user
+            User user = users[0];
 
-            // Remove existing controls
             ClearUserDetails();
+
+            Button backButton = new Button();
+            backButton.Text = "Back";
+            backButton.Size = new Size(80, 30);
+            backButton.Location = new Point(20, 250);
+            backButton.Click += (sender, e) =>
+            {
+                MainMenu mainMenu = new MainMenu(LoginForm.user_name);
+                this.Hide();
+                mainMenu.Show();
+            };
+            Button deleteButton = new Button();
+            deleteButton.Text = "Delete";
+            deleteButton.Size = new Size(80, 30);
+            deleteButton.Location = new Point(130, 250);
+            deleteButton.Click += (sender, e) =>
+            {
+                string query = "DELETE FROM users WHERE email = @email";
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, DBConnection.conn);
+                    command.Parameters.AddWithValue("@email", user.Email);
+                    DBConnection.conn.Open();
+                    command.ExecuteNonQuery();
+                    MessageBox.Show("User deleted!");
+                    DBConnection.conn.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("An error occurred: " + ex.Message);
+                }
+                this.Hide();
+                UserSearchForm searchForm = new UserSearchForm();
+                searchForm.Show();
+            };
+            Controls.Add(deleteButton);
+            Controls.Add(backButton);
+
 
             int labelLeftColumn1 = 20;
             int valueLeftColumn1 = 180;
@@ -104,7 +136,6 @@ namespace MTP_project
             int top = 20;
             int spacing = 30;
 
-            // Create and position labels and values dynamically for the first column
             int propertyCount = 0;
             foreach (var property in typeof(User).GetProperties())
             {
@@ -120,26 +151,13 @@ namespace MTP_project
 
                 Control propertyValueControl;
 
-                if (property.PropertyType == typeof(byte[]))
-                {
-                    // Special case for profile picture
-                    PictureBox pictureBox = new PictureBox();
-                    pictureBox.Width = 200;
-                    pictureBox.Height = 200;
-                    pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
-                    propertyValueControl = pictureBox;
-                }
-                else
-                {
-                    Label propertyValueLabel = new Label();
-                    propertyValueLabel.AutoSize = true;
-                    propertyValueControl = propertyValueLabel;
-                }
+                Label propertyValueLabel1 = new Label();
+                propertyValueLabel1.AutoSize = true;
+                propertyValueControl = propertyValueLabel1;
 
                 propertyValueControl.Left = valueLeftColumn1;
                 propertyValueControl.Top = top;
 
-                // Set the value
                 object propertyValue = property.GetValue(user);
                 if (propertyValue != null)
                 {
@@ -154,27 +172,18 @@ namespace MTP_project
                             propertyValueLabel.Text = propertyValue.ToString();
                         }
                     }
-                    else if (propertyValueControl is PictureBox pictureBox)
-                    {
-                        byte[] imageBytes = (byte[])propertyValue;
-                        using (MemoryStream ms = new MemoryStream(imageBytes))
-                        {
-                            pictureBox.Image = Image.FromStream(ms);
-                        }
-                    }
+
                 }
 
-                // Add the controls to the form
                 Controls.Add(label);
                 Controls.Add(propertyValueControl);
 
                 propertyCount++;
-                top += spacing; // Increase the top position for the next row
+                top += spacing;
             }
 
-            top = 20; // Reset top position for the second column
+            top = 20;
 
-            // Create and position labels and values dynamically for the second column
             foreach (var property in typeof(User).GetProperties())
             {
                 if (property.Name == "First_Name" || property.Name == "Last_Name" || property.Name == "Email" || property.Name == "Gender" || property.Name == "SSN" || property.Name == "Date_Of_Birth")
@@ -191,16 +200,14 @@ namespace MTP_project
 
                 if (property.PropertyType == typeof(byte[]))
                 {
-                    // Special case for profile picture
                     PictureBox pictureBox = new PictureBox();
-                    pictureBox.Width = 200;
-                    pictureBox.Height = 200;
+                    pictureBox.Width = 150;
+                    pictureBox.Height = 150;
                     pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
                     propertyValueControl = pictureBox;
 
-                    // Position the picture box right below the label
                     pictureBox.Left = label.Left;
-                    pictureBox.Top = 100;
+                    pictureBox.Top = label.Bottom;
                 }
                 else
                 {
@@ -208,11 +215,11 @@ namespace MTP_project
                     propertyValueLabel.AutoSize = true;
                     propertyValueControl = propertyValueLabel;
                 }
-                if (!(propertyValueControl is PictureBox)) { 
-                propertyValueControl.Left = valueLeftColumn2;
-                propertyValueControl.Top = top;
+                if (!(propertyValueControl is PictureBox))
+                {
+                    propertyValueControl.Left = valueLeftColumn2;
+                    propertyValueControl.Top = top;
                 }
-                // Set the value
                 object propertyValue = property.GetValue(user);
                 if (propertyValue != null)
                 {
@@ -237,19 +244,58 @@ namespace MTP_project
                     }
                 }
 
-                this.Height = 340;
-                // Add the controls to the form
+
                 Controls.Add(label);
                 Controls.Add(propertyValueControl);
 
                 propertyCount++;
-                top += spacing; // Increase the top position for the next row
+                top += spacing;
             }
         }
-
-            private void ClearUserDetails()
+        private void ClearUserDetails()
         {
             Controls.Clear();
+        }
+
+        private void UserSearchForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MainMenu mainMenu = new MainMenu(LoginForm.user_name);
+            this.Hide();
+            mainMenu.Show();
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            progressBar1.Value += 10;
+            progressBar1.Value -= 1;
+            progressBar1.Value += 1;
+            if (progressBar1.Value == progressBar1.Maximum)
+            {
+                timer1.Stop();
+
+                List<User> users = SearchUsers();
+
+                if (users.Count > 0)
+                {
+                    this.Size = new Size(700, 300);
+                    DisplayUserDetails(users);
+                }
+                else
+                {
+                    MessageBox.Show("User not found.");
+                    progressBar1.Value = 0;
+                }
+            }
         }
     }
 }

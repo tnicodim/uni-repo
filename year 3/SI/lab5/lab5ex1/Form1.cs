@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MTP_project
+namespace lab5ex1
 {
-    public partial class DetailForm : Form
+    public partial class Form1 : Form
     {
-        public DetailForm()
+        public Form1()
         {
             InitializeComponent();
         }

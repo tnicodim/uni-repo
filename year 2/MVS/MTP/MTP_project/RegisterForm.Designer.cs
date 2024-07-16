@@ -48,101 +48,109 @@ namespace MTP_project
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(101, 224);
+            this.button1.Location = new System.Drawing.Point(269, 179);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(163, 61);
-            this.button1.TabIndex = 15;
+            this.button1.Size = new System.Drawing.Size(145, 49);
+            this.button1.TabIndex = 5;
             this.button1.Text = " Confirm";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(300, 224);
+            this.button2.Location = new System.Drawing.Point(106, 179);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(163, 61);
-            this.button2.TabIndex = 16;
+            this.button2.Size = new System.Drawing.Size(145, 49);
+            this.button2.TabIndex = 6;
             this.button2.Text = " Cancel";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(116, 39);
+            this.label4.Location = new System.Drawing.Point(103, 31);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 20);
+            this.label4.Size = new System.Drawing.Size(46, 17);
             this.label4.TabIndex = 20;
             this.label4.Text = " Email";
             // 
             // textBox4
             // 
-            this.textBox4.Location = new System.Drawing.Point(187, 36);
+            this.textBox4.Location = new System.Drawing.Point(166, 29);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(253, 26);
-            this.textBox4.TabIndex = 19;
+            this.textBox4.Size = new System.Drawing.Size(225, 22);
+            this.textBox4.TabIndex = 1;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(74, 171);
+            this.label5.Location = new System.Drawing.Point(66, 137);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(90, 20);
+            this.label5.Size = new System.Drawing.Size(80, 17);
             this.label5.TabIndex = 28;
             this.label5.Text = " Last Name";
             // 
             // textBox5
             // 
-            this.textBox5.Location = new System.Drawing.Point(187, 165);
+            this.textBox5.Location = new System.Drawing.Point(166, 132);
+            this.textBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(253, 26);
-            this.textBox5.TabIndex = 27;
+            this.textBox5.Size = new System.Drawing.Size(225, 22);
+            this.textBox5.TabIndex = 4;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(49, 15);
+            this.label6.Location = new System.Drawing.Point(44, 12);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(106, 20);
+            this.label6.Size = new System.Drawing.Size(96, 17);
             this.label6.TabIndex = 26;
             this.label6.Text = "Profile Picture";
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(187, 122);
+            this.textBox7.Location = new System.Drawing.Point(166, 98);
+            this.textBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(253, 26);
-            this.textBox7.TabIndex = 24;
+            this.textBox7.Size = new System.Drawing.Size(225, 22);
+            this.textBox7.TabIndex = 3;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(118, 82);
+            this.label7.Location = new System.Drawing.Point(105, 66);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(46, 20);
+            this.label7.Size = new System.Drawing.Size(40, 17);
             this.label7.TabIndex = 23;
             this.label7.Text = " SSN";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(74, 125);
+            this.label8.Location = new System.Drawing.Point(66, 100);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(90, 20);
+            this.label8.Size = new System.Drawing.Size(80, 17);
             this.label8.TabIndex = 22;
             this.label8.Text = " First Name";
             // 
             // textBox8
             // 
-            this.textBox8.Location = new System.Drawing.Point(187, 79);
+            this.textBox8.Location = new System.Drawing.Point(166, 63);
+            this.textBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(253, 26);
-            this.textBox8.TabIndex = 21;
+            this.textBox8.Size = new System.Drawing.Size(225, 22);
+            this.textBox8.TabIndex = 2;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 38);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 30);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(216, 193);
+            this.pictureBox1.Size = new System.Drawing.Size(192, 154);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 29;
             this.pictureBox1.TabStop = false;
@@ -155,9 +163,10 @@ namespace MTP_project
             this.panel1.AllowDrop = true;
             this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.label6);
-            this.panel1.Location = new System.Drawing.Point(505, 12);
+            this.panel1.Location = new System.Drawing.Point(449, 10);
+            this.panel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(219, 273);
+            this.panel1.Size = new System.Drawing.Size(195, 218);
             this.panel1.TabIndex = 32;
             this.panel1.DragDrop += new System.Windows.Forms.DragEventHandler(this.panel1_DragDrop);
             this.panel1.DragEnter += new System.Windows.Forms.DragEventHandler(this.panel1_DragEnter);
@@ -165,9 +174,9 @@ namespace MTP_project
             // RegisterForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 316);
+            this.ClientSize = new System.Drawing.Size(679, 253);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.textBox5);
@@ -179,7 +188,9 @@ namespace MTP_project
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "RegisterForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Register";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);

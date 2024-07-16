@@ -1,7 +1,7 @@
 ﻿
-namespace MTP_project
+namespace lab5ex1
 {
-    partial class DetailForm
+    partial class Form1
     {
         /// <summary>
         /// Required designer variable.
@@ -29,19 +29,13 @@ namespace MTP_project
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // DetailForm
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "DetailForm";
-            this.Text = "Details";
-            this.ResumeLayout(false);
-
+            this.Text = "Form1";
         }
 
         #endregion
     }
 }
+

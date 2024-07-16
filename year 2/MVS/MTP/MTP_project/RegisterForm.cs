@@ -14,10 +14,22 @@ namespace MTP_project
 {
     public partial class RegisterForm : Form
     {
-        
+        private const int WM_NCHITTEST = 0x84;
+        private const int HTCLIENT = 0x1;
+        private const int HTCAPTION = 0x2;
+        protected override void WndProc(ref Message message)
+        {
+            base.WndProc(ref message);
+
+            if (message.Msg == WM_NCHITTEST && (int)message.Result == HTCLIENT)
+                message.Result = (IntPtr)HTCAPTION;
+        }
         public RegisterForm()
         {
             InitializeComponent();
+            this.ControlBox = false;
+            this.Text = String.Empty;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         public byte[] imageData;
@@ -27,21 +39,18 @@ namespace MTP_project
             dateOfBirth = new DateTime();
             gender = "";
 
-            // Check that the SSN is 13 characters long
             if (ssn.Length != 13)
             {
                 MessageBox.Show("Invalid SSN: SSN must be 13 characters long.");
                 return false;
             }
 
-            // Check that the SSN only contains digits
             if (!ssn.All(char.IsDigit))
             {
                 MessageBox.Show("Invalid SSN: SSN must only contain digits.");
                 return false;
             }
 
-            // Check that the first digit represents the gender (1,5 for male, 2,6 for female)
             int genderDigit = int.Parse(ssn.Substring(0, 1));
             if (!(genderDigit == 1 || genderDigit == 2 || genderDigit == 5 || genderDigit == 6))
             {
@@ -49,7 +58,6 @@ namespace MTP_project
                 return false;
             }
 
-            // Check that the next six digits represent a valid date of birth
             string dateOfBirthString = ssn.Substring(1, 6);
             if (!DateTime.TryParseExact(dateOfBirthString, "yyMMdd", null, System.Globalization.DateTimeStyles.None, out dateOfBirth))
             {
@@ -57,7 +65,6 @@ namespace MTP_project
                 return false;
             }
 
-            // Check that the last three digits represent a valid identification number
             int identificationNumber = int.Parse(ssn.Substring(7, 3));
             if (identificationNumber == 0 || identificationNumber > 999)
             {
@@ -65,7 +72,6 @@ namespace MTP_project
                 return false;
             }
 
-            // Determine the gender based on the first digit
             if (genderDigit == 1 || genderDigit == 5)
             {
                 gender = "Male";
@@ -75,12 +81,15 @@ namespace MTP_project
                 gender = "Female";
             }
 
-            // If all checks pass, the SSN is valid
             return true;
         }
 
         public bool IsValidEmail(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                return false;
+            }
             try
             {
                 var mailAddress = new MailAddress(email);
@@ -110,29 +119,23 @@ namespace MTP_project
             DateTime creationDate = DateTime.Now;
             string gender;
 
-            if (!IsValidEmail(textBox4.Text))
+            if (!IsValidEmail(email))
             {
                 MessageBox.Show("Invalid email address!");
                 return;
             }
             if (!ValidateRomanianSSN(ssn, out dateOfBirth, out gender))
-            {
-                MessageBox.Show("Invalid SSN!");
                 return;
-            }
             if (imageData == null){
                 MessageBox.Show("Please provide a profile picture!");
                 return;
             }
-            // Step 1: Connect to the database
                 DBConnection.conn.Open();
 
-                // Step 2: Prepare the SQL statement
                 string insertQuery = "INSERT INTO Users (Email, Account_Creation_Date, Gender, Date_Of_Birth, First_Name, Last_Name, SSN, Profile_Picture ) VALUES (@email, @creationDate, @gender, @dof, @fname, @lname, @ssn, @pfp)";
 
                 using (SqlCommand command = new SqlCommand(insertQuery, DBConnection.conn))
                 {
-                    // Step 3: Set parameter values
                     command.Parameters.AddWithValue("@email", email);
                     command.Parameters.AddWithValue("@creationDate", creationDate);
                     command.Parameters.AddWithValue("@pfp", imageData);
@@ -142,12 +145,12 @@ namespace MTP_project
                     command.Parameters.AddWithValue("@lname", lname);
                     command.Parameters.AddWithValue("@ssn", ssn);
 
-                    // Step 4: Execute the SQL statement
                     command.ExecuteNonQuery();
                 }
             MessageBox.Show("Success!");
             DBConnection.conn.Close();
-            }
+            button2_Click(this, EventArgs.Empty);
+        }
 
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -179,6 +182,13 @@ namespace MTP_project
             {
                 e.Effect = DragDropEffects.Copy;
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MainMenu mainMenu = new MainMenu(LoginForm.user_name);
+            this.Hide();
+            mainMenu.Show();
         }
     }
 }

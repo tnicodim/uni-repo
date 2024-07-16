@@ -40,9 +40,10 @@ namespace MTP_project
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(304, 190);
+            this.button2.Location = new System.Drawing.Point(270, 152);
+            this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(116, 50);
+            this.button2.Size = new System.Drawing.Size(103, 40);
             this.button2.TabIndex = 3;
             this.button2.Text = " Cancel";
             this.button2.UseVisualStyleBackColor = true;
@@ -50,9 +51,10 @@ namespace MTP_project
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(163, 190);
+            this.button1.Location = new System.Drawing.Point(145, 152);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(116, 50);
+            this.button1.Size = new System.Drawing.Size(103, 40);
             this.button1.TabIndex = 2;
             this.button1.Text = " Log In";
             this.button1.UseVisualStyleBackColor = true;
@@ -61,34 +63,36 @@ namespace MTP_project
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(70, 116);
+            this.label2.Location = new System.Drawing.Point(62, 93);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 20);
+            this.label2.Size = new System.Drawing.Size(73, 17);
             this.label2.TabIndex = 9;
             this.label2.Text = " Password";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(54, 66);
+            this.label1.Location = new System.Drawing.Point(48, 53);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(98, 20);
+            this.label1.Size = new System.Drawing.Size(88, 17);
             this.label1.TabIndex = 8;
             this.label1.Text = " User / Email";
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(167, 63);
+            this.textBox1.Location = new System.Drawing.Point(148, 50);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(253, 26);
+            this.textBox1.Size = new System.Drawing.Size(225, 22);
             this.textBox1.TabIndex = 0;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(167, 113);
+            this.textBox2.Location = new System.Drawing.Point(148, 90);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(253, 26);
+            this.textBox2.Size = new System.Drawing.Size(225, 22);
             this.textBox2.TabIndex = 1;
             // 
             // label3
@@ -96,18 +100,18 @@ namespace MTP_project
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.ForestGreen;
-            this.label3.Location = new System.Drawing.Point(210, 153);
+            this.label3.Location = new System.Drawing.Point(187, 122);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(151, 22);
+            this.label3.Size = new System.Drawing.Size(125, 18);
             this.label3.TabIndex = 10;
             this.label3.Text = "Login Successful.";
             this.label3.Visible = false;
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(518, 272);
+            this.ClientSize = new System.Drawing.Size(460, 218);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button2);
@@ -115,7 +119,9 @@ namespace MTP_project
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "LoginForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.ResumeLayout(false);
             this.PerformLayout();

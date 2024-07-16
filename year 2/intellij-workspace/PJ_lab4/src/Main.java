@@ -58,7 +58,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.print("""
-                                        
+
                     1. Display all items
                     2. Display printers
                     3. Display copy machines

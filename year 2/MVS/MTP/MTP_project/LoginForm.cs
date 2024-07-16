@@ -14,9 +14,24 @@ namespace MTP_project
 {
     public partial class LoginForm : Form
     {
+        public static string user_name;
+        private int tries = 0;
+        private const int WM_NCHITTEST = 0x84;
+        private const int HTCLIENT = 0x1;
+        private const int HTCAPTION = 0x2;
+        protected override void WndProc(ref Message message)
+        {
+            base.WndProc(ref message);
+
+            if (message.Msg == WM_NCHITTEST && (int)message.Result == HTCLIENT)
+                message.Result = (IntPtr)HTCAPTION;
+        }
         public LoginForm()
         {
             InitializeComponent();
+            this.ControlBox = false;
+            this.Text = String.Empty;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
         private string connectionString = DBConnection.conn.ToString();
@@ -45,18 +60,24 @@ namespace MTP_project
                 label3.Text = "Login Successful";
                 label3.ForeColor = Color.ForestGreen;
                 label3.Visible = true;
+                user_name = columnName;
                 await Task.Delay(1000);
-                MainMenu mainMenu = new MainMenu(columnName);
+                MainMenu mainMenu = new MainMenu(user_name);
                 this.Hide();
                 mainMenu.Show();
             }
             else
             {
                 // Invalid login
+                tries++;
                 label3.Location = new Point(110, 100);
                 label3.Text = "Invalid username or password.";
                 label3.ForeColor = Color.Red;
                 label3.Visible = true;
+                if (tries == 3) {
+                    MessageBox.Show("Maximum number of attempts reached!");
+                    Application.Exit();
+                }
             }
         }
 
